@@ -14,24 +14,41 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
+model Users {
   id String @id @default(uuid())
   
   email        String
-  firstName    String
-  lastName     String
-  profileImage String?
-  Reservation  Reservation[]
-}
-
-model Reservation {
-  id String @id @default(uuid())
-
-  startDate DateTime
-  endDate   DateTime
+  first_name    String
+  last_name     String
+  profile_image String?
   createdAt DateTime @default(now())
 
-  User   User?   @relation(fields: [userId], references: [id])
+  Booking  Bookings[]
+}
+
+model Rooms {
+  id String @id @default(uuid())
+  name String
+  description String
+  price Float
+  location String
+  image_url String
+  createdAt DateTime @default(now())
+  Booking  Bookings[]
+
+}
+
+model Bookings {
+  id String @id @default(uuid())
+  room_id String
+  user_id String
+  check_in_date DateTime
+  check_out_date DateTime
+  status String
+  createdAt DateTime @default(now())
+
+  User   Users?   @relation(fields: [user_id], references: [id])
+  Room   Rooms?   @relation(fields: [room_id], references: [id])
   userId String?
   homeId String?
 }

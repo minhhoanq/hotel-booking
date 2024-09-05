@@ -4,7 +4,7 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "../../components/ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
 import {
     LoginLink,

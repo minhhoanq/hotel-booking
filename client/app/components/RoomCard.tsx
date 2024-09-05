@@ -1,6 +1,6 @@
 import { MapPin } from "lucide-react";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "../../components/ui/button";
 import { formatMoney } from "@/lib/helpers";
 
 interface IRooms {
@@ -14,6 +14,7 @@ interface IRooms {
 
 export function RoomCard(props: { el: IRooms }) {
     const data = props.el;
+
     return (
         <div className="flex flex-col space-y-2 rounded-md border ">
             <div className="relative h-90">
@@ -25,7 +26,7 @@ export function RoomCard(props: { el: IRooms }) {
             </div>
 
             <div className="px-2 pb-2 flex flex-col space-y-2">
-                <span className="text-blue-600 font-semibold text-base line-clamp-1">
+                <span className="text-primary font-semibold text-base line-clamp-1">
                     {data.name}
                 </span>
                 <h3 className=" text-sm flex space-x-2 items-center">
@@ -41,10 +42,10 @@ export function RoomCard(props: { el: IRooms }) {
                     </span>
                 </p>
 
-                <Link href={`/home/${1}`} className="mt-2 w-full">
+                <Link href={`/room/${data.id}`} className="mt-2 w-full">
                     <Button
                         variant={"outline"}
-                        className="w-full text-blue-500 border-blue-500 hover:bg-blue-50 hover:text-blue-500"
+                        className="w-full text-primary border-primary hover:bg-blue-50 hover:text-primary"
                     >
                         See Available Room
                     </Button>

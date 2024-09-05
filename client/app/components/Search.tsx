@@ -21,7 +21,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { Input } from "./ui/input";
+import { Input } from "../../components/ui/input";
 import { useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 

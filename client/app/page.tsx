@@ -1,6 +1,6 @@
-import { EmptyItem } from "@/components/EmptyItem";
-import { RoomCard } from "@/components/RoomCard";
-import { SkeltonCard } from "@/components/SkeltonCard";
+import { EmptyItem } from "@/app/components/EmptyItem";
+import { RoomCard } from "@/app/components/RoomCard";
+import { SkeltonCard } from "@/app/components/SkeltonCard";
 import prisma from "@/lib/db";
 import { Suspense } from "react";
 
@@ -22,23 +22,35 @@ async function getData({
         check_out_date?: Date;
     };
 }): Promise<IRoom[]> {
-    const data: IRoom[] = await prisma.rooms.findMany({
-        where: {
-            location: {
-                contains: searchParams?.location || "",
-                mode: "insensitive",
-            },
-        },
-        select: {
-            id: true,
-            name: true,
-            description: true,
-            price: true,
-            location: true,
-            image_url: true,
+    const queryParams = new URLSearchParams();
+    if (searchParams?.location) {
+        queryParams.append("location", searchParams.location);
+    }
+    if (searchParams?.check_in_date) {
+        queryParams.append(
+            "check_in_date",
+            searchParams.check_in_date.toISOString()
+        );
+    }
+    if (searchParams?.check_out_date) {
+        queryParams.append(
+            "check_out_date",
+            searchParams.check_out_date.toISOString()
+        );
+    }
+
+    // Construct URL with query parameters
+    const url = `http://localhost:3000/api/rooms?${queryParams.toString()}`;
+    console.log(url);
+
+    const data = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
         },
     });
-    return data;
+
+    return data.json();
 }
 
 const ShowItems = async ({

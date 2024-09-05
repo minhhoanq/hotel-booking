@@ -5,17 +5,15 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import {
@@ -24,19 +22,42 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "./ui/input";
+import { useSearchParams } from "next/navigation";
+import { useCallback } from "react";
 
 const FormSchema = z.object({
-    dob: z.date({
-        required_error: "A date of birth is required.",
+    address: z.string({
+        required_error: "Vui lòng chọn điểm đến.",
     }),
+    check_in_date: z.date().optional(),
+    check_out_date: z.date().optional(),
 });
 
 export function Search() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const search = searchParams.get("location");
+
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams.toString());
+
+            params.set(name, value);
+
+            return params.toString();
+        },
+        [searchParams]
+    );
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {}
+    function onSubmit(data: z.infer<typeof FormSchema>) {
+        console.log(data);
+        const query = createQueryString("location", data.address);
+        router.push(`?${query.toString()}`);
+    }
 
     return (
         <Form {...form}>
@@ -46,10 +67,14 @@ export function Search() {
             >
                 <FormField
                     control={form.control}
-                    name="dob"
+                    name="address"
                     render={({ field }) => (
                         <FormItem className="flex flex-col w-full">
-                            <Input type="email" placeholder="Điểm đến" />
+                            <Input
+                                type="text"
+                                placeholder="Điểm đến"
+                                {...field}
+                            />
                             <FormMessage className="text-xs" />
                         </FormItem>
                     )}
@@ -57,7 +82,7 @@ export function Search() {
                 <div className="flex items-center space-x-2">
                     <FormField
                         control={form.control}
-                        name="dob"
+                        name="check_in_date"
                         render={({ field }) => (
                             <FormItem className="flex flex-col w-full">
                                 <Popover>
@@ -103,7 +128,7 @@ export function Search() {
                     <div className="text-sm">-</div>
                     <FormField
                         control={form.control}
-                        name="dob"
+                        name="check_out_date"
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
                                 <Popover>

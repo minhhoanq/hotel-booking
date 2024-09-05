@@ -19,6 +19,9 @@ const config: Config = {
                 md: "calc(var(--radius) - 2px)",
                 sm: "calc(var(--radius) - 4px)",
             },
+            backgroundColor: {
+                overlay: "rgba(0,0,0,0.2)",
+            },
             colors: {
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
@@ -59,6 +62,10 @@ const config: Config = {
                     "3": "hsl(var(--chart-3))",
                     "4": "hsl(var(--chart-4))",
                     "5": "hsl(var(--chart-5))",
+                },
+                success: {
+                    DEFAULT: "hsl(var(#008000))",
+                    foreground: "hsl(var(--primary-foreground))",
                 },
             },
         },

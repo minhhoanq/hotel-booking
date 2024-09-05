@@ -12,6 +12,7 @@ import {
     RegisterLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import Link from "next/link";
 
 export default async function UserNav() {
     const { getUser } = getKindeServerSession();
@@ -36,17 +37,24 @@ export default async function UserNav() {
                 {user ? (
                     <>
                         <DropdownMenuItem>
-                            <LogoutLink className="w-full">Sign out</LogoutLink>
+                            <Link href={"/admin"} className="w-full">
+                                Quản lí
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <LogoutLink className="w-full">
+                                Đăng xuất
+                            </LogoutLink>
                         </DropdownMenuItem>
                     </>
                 ) : (
                     <>
                         <DropdownMenuItem>
-                            <LoginLink className="w-full">Sign in</LoginLink>
+                            <LoginLink className="w-full">Đăng nhập</LoginLink>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                             <RegisterLink className="w-full">
-                                Sign up
+                                Đăng ký
                             </RegisterLink>
                         </DropdownMenuItem>
                     </>

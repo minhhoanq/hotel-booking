@@ -81,20 +81,28 @@ const BookingFrom = ({ email }: { email?: string }) => {
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         const formattedData = formatDateProperties(data);
 
-        const response = await fetch("/api/bookings", {
+        await fetch("/api/bookings", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(formattedData),
-        });
-
-        const rs = await response.json();
-        toast({
-            variant: "default",
-            title: "Thành công",
-            description: "Đặt phòng thành công.",
-        });
+        })
+            .then(() => {
+                form.reset();
+                toast({
+                    variant: "default",
+                    title: "Thành công",
+                    description: "Đặt phòng thành công.",
+                });
+            })
+            .catch(() => {
+                toast({
+                    variant: "destructive",
+                    title: "Thất bại",
+                    description: "Có lỗi xảy ra, vui lòng thử lại sau.",
+                });
+            });
     }
 
     return (

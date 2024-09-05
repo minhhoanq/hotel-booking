@@ -31,7 +31,7 @@ export async function POST(req: Request) {
                 phone,
                 check_in_date,
                 check_out_date,
-                status: "pending",
+                status: "Đang xử lí",
             },
         });
         return NextResponse.json(booking, { status: 201 });
@@ -45,7 +45,26 @@ export async function POST(req: Request) {
 
 export async function GET() {
     try {
-        const bookings = await prisma.bookings.findMany();
+        const bookings = await prisma.bookings.findMany({
+            select: {
+                id: true,
+                room_id: true,
+                email: true,
+                phone: true,
+                check_in_date: true,
+                check_out_date: true,
+                status: true,
+                createdAt: true,
+                Room: {
+                    select: {
+                        id: true,
+                        name: true,
+                        image_url: true,
+                        price: true,
+                    },
+                },
+            },
+        });
 
         return NextResponse.json(bookings, { status: 200 });
     } catch (error) {

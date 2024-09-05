@@ -23,25 +23,23 @@ async function getData({
     };
 }): Promise<IRoom[]> {
     const queryParams = new URLSearchParams();
+    console.log("params: ", searchParams);
+
     if (searchParams?.location) {
         queryParams.append("location", searchParams.location);
     }
     if (searchParams?.check_in_date) {
-        queryParams.append(
-            "check_in_date",
-            searchParams.check_in_date.toISOString()
-        );
+        queryParams.append("check_in_date", String(searchParams.check_in_date));
     }
     if (searchParams?.check_out_date) {
         queryParams.append(
             "check_out_date",
-            searchParams.check_out_date.toISOString()
+            String(searchParams.check_out_date)
         );
     }
 
     // Construct URL with query parameters
     const url = `http://localhost:3000/api/rooms?${queryParams.toString()}`;
-    console.log(url);
 
     const data = await fetch(url, {
         method: "GET",
@@ -63,7 +61,11 @@ const ShowItems = async ({
     };
 }) => {
     const data: IRoom[] = await getData({
-        searchParams: { location: searchParams?.location },
+        searchParams: {
+            location: searchParams?.location,
+            check_in_date: searchParams?.check_in_date,
+            check_out_date: searchParams?.check_out_date,
+        },
     });
 
     return (

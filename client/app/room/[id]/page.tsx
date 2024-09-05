@@ -35,25 +35,21 @@ const Amenities: IAmenities[] = [
 ];
 
 const getData = async (roomId: string) => {
-    const data = await prisma.rooms.findUnique({
-        where: {
-            id: roomId,
-        },
-        select: {
-            id: true,
-            name: true,
-            description: true,
-            price: true,
-            location: true,
-            image_url: true,
+    const url = `http://localhost:3000/api/rooms/${roomId}?`;
+
+    const data = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
         },
     });
 
-    return data;
+    return data.json();
 };
 
 const RoomRoutes = async ({ params }: { params: { id: string } }) => {
     const data = await getData(params.id);
+
     const { getUser } = getKindeServerSession();
     const user = await getUser();
 

@@ -42,3 +42,16 @@ export async function POST(req: Request) {
         );
     }
 }
+
+export async function GET() {
+    try {
+        const bookings = await prisma.bookings.findMany();
+
+        return NextResponse.json(bookings, { status: 200 });
+    } catch (error) {
+        return NextResponse.json(
+            { error: "Error creating booking" },
+            { status: 500 }
+        );
+    }
+}

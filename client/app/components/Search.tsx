@@ -24,6 +24,7 @@ import {
 import { Input } from "../../components/ui/input";
 import { useSearchParams } from "next/navigation";
 import { useCallback } from "react";
+import moment from "moment";
 
 const FormSchema = z.object({
     address: z.string({
@@ -38,24 +39,19 @@ export function Search() {
     const router = useRouter();
     const search = searchParams.get("location");
 
-    const createQueryString = useCallback(
-        (name: string, value: string) => {
-            const params = new URLSearchParams(searchParams.toString());
-
-            params.set(name, value);
-
-            return params.toString();
-        },
-        [searchParams]
-    );
-
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data);
-        const query = createQueryString("location", data.address);
+        let query = new URLSearchParams(searchParams.toString());
+
+        // Add location, check_in_date, and check_out_date to the query string
+        query.set("location", data.address);
+        query.set("check_in_date", moment(data.check_in_date).toISOString()); // Assuming 'check_in_date' exists in your form data
+        query.set("check_out_date", moment(data.check_out_date).toISOString()); // Assuming 'check_out_date' exists in your form data
+
+        // Navigate to the new route with the updated query string
         router.push(`?${query.toString()}`);
     }
 
@@ -114,7 +110,7 @@ export function Search() {
                                             selected={field.value}
                                             onSelect={field.onChange}
                                             disabled={(date) =>
-                                                date > new Date() ||
+                                                date < new Date() ||
                                                 date < new Date("1900-01-01")
                                             }
                                             initialFocus
@@ -160,7 +156,7 @@ export function Search() {
                                             selected={field.value}
                                             onSelect={field.onChange}
                                             disabled={(date) =>
-                                                date > new Date() ||
+                                                date < new Date() ||
                                                 date < new Date("1900-01-01")
                                             }
                                             initialFocus

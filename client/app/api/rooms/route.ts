@@ -19,20 +19,34 @@ export async function GET(req: Request) {
 
         const where: any = {};
 
+        // Filter by location if provided
         if (location) {
             where.location = {
                 contains: location,
                 mode: "insensitive",
             };
         }
+
+        // If check_in_date and check_out_date are provided
         if (check_in_date && check_out_date) {
-            where.check_in_date = {
-                gte: new Date(check_in_date),
-            };
-            where.check_out_date = {
-                lte: new Date(check_out_date),
+            // Exclude rooms that have bookings overlapping with the requested dates
+            where.Booking = {
+                none: {
+                    AND: [
+                        {
+                            check_in_date: {
+                                lte: check_in_date, // Check-in date is before or on check-out
+                            },
+                            check_out_date: {
+                                gte: check_out_date, // Check-out date is after or on check-in
+                            },
+                        },
+                    ],
+                },
             };
         }
+
+        console.log("where: ", where);
 
         // Fetch rooms with optional filters
         const data: IRoom[] = await prisma.rooms.findMany({

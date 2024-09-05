@@ -81,7 +81,6 @@ const BookingFrom = ({ email }: { email?: string }) => {
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         const formattedData = formatDateProperties(data);
 
-        console.log(formattedData);
         const response = await fetch("/api/bookings", {
             method: "POST",
             headers: {
@@ -91,7 +90,6 @@ const BookingFrom = ({ email }: { email?: string }) => {
         });
 
         const rs = await response.json();
-        console.log(rs);
         toast({
             variant: "default",
             title: "Thành công",

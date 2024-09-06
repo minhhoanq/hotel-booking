@@ -1,5 +1,4 @@
 import React from "react";
-import prisma from "@/lib/db";
 import { Separator } from "@/components/ui/separator";
 import { MapPin, Users, Utensils, Waves, Wifi, Wine } from "lucide-react";
 import { formatMoney } from "@/lib/helpers";

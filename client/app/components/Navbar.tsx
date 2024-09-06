@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "../../public/Trip.com_Icon_2022.png";
 import UserNav from "./UserNav";
-import { Search } from "./Search";
+import { Searchbar } from "./Search";
 
 export default function Navbar() {
     return (
@@ -22,7 +22,7 @@ export default function Navbar() {
                     />
                 </Link>
 
-                <Search />
+                <Searchbar />
 
                 <UserNav />
             </div>

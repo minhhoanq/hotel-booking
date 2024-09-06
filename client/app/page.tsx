@@ -16,7 +16,6 @@ async function getData({
 }): Promise<IRoom[]> {
     noStore();
     const queryParams = new URLSearchParams();
-    console.log("params: ", searchParams);
 
     if (searchParams?.location) {
         queryParams.append("location", searchParams.location);

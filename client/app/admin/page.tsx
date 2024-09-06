@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import Modal from "../components/Modal";
 import { IBooking } from "@/types/booking";
 import { useLoader } from "@/context/LoaderContext";
@@ -39,7 +39,6 @@ const Page = () => {
     React.useEffect(() => {
         (async () => {
             const data = await getData();
-            console.log(data);
             setData(data as IBooking[]);
         })();
     }, []);

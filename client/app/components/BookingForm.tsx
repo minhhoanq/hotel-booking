@@ -83,7 +83,7 @@ const BookingFrom = ({ email }: { email?: string }) => {
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         const formattedData = formatDateProperties(data);
         setLoading(true);
-        await fetch("/api/bookings", {
+        await fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/bookings`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

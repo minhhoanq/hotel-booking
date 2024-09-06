@@ -6,7 +6,6 @@ import React from "react";
 import Modal from "../components/Modal";
 import { IBooking } from "@/types/booking";
 import { useLoader } from "@/context/LoaderContext";
-import { unstable_noStore as noStore } from "next/cache";
 
 const Page = () => {
     const [open, setOpen] = React.useState(false);
@@ -17,7 +16,6 @@ const Page = () => {
     async function getData(): Promise<IBooking[]> {
         setLoading(true);
         try {
-            noStore();
             const url = `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/bookings`;
 
             const data = await fetch(url, {

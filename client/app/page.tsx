@@ -3,7 +3,6 @@ import { RoomCard } from "@/app/components/RoomCard";
 import { SkeltonCard } from "@/app/components/SkeltonCard";
 import { IRoom } from "@/types/room";
 import { Suspense } from "react";
-import { unstable_noStore as noStore } from "next/cache";
 
 async function getData({
     searchParams,
@@ -14,7 +13,6 @@ async function getData({
         check_out_date?: Date;
     };
 }): Promise<IRoom[]> {
-    noStore();
     const queryParams = new URLSearchParams();
 
     if (searchParams?.location) {

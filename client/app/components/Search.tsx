@@ -68,6 +68,8 @@ function Search() {
         let query = new URLSearchParams(searchParams.toString());
         console.log("submit data", data);
 
+        query.set("location", data.address);
+
         // Add location, check_in_date, and check_out_date to the query string
         if (data.check_in_date && data.check_out_date) {
             query.set(

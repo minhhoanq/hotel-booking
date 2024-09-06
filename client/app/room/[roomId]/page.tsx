@@ -46,8 +46,8 @@ const getData = async (roomId: string) => {
     return data.json();
 };
 
-const RoomRoutes = async ({ params }: { params: { id: string } }) => {
-    const data = await getData(params.id);
+const RoomRoutes = async ({ params }: { params: { roomId: string } }) => {
+    const data = await getData(params.roomId);
 
     const { getUser } = getKindeServerSession();
     const user = await getUser();

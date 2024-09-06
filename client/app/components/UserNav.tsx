@@ -49,6 +49,11 @@ export default async function UserNav() {
                 ) : (
                     <>
                         <DropdownMenuItem>
+                            <Link href={"/admin"} className="w-full">
+                                Quản lí
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
                             <LoginLink className="w-full">Đăng nhập</LoginLink>
                         </DropdownMenuItem>
                         <DropdownMenuItem>

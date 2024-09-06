@@ -1,11 +1,9 @@
 import { EmptyItem } from "@/app/components/EmptyItem";
 import { RoomCard } from "@/app/components/RoomCard";
 import { SkeltonCard } from "@/app/components/SkeltonCard";
-import { LoaderProvider } from "@/context/LoaderContext";
-import prisma from "@/lib/db";
 import { IRoom } from "@/types/room";
 import { Suspense } from "react";
-import Loader from "./components/Loader";
+import { unstable_noStore as noStore } from "next/cache";
 
 async function getData({
     searchParams,
@@ -16,6 +14,7 @@ async function getData({
         check_out_date?: Date;
     };
 }): Promise<IRoom[]> {
+    noStore();
     const queryParams = new URLSearchParams();
     console.log("params: ", searchParams);
 

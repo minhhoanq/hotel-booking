@@ -5,6 +5,7 @@ import { MapPin, Users, Utensils, Waves, Wifi, Wine } from "lucide-react";
 import { formatMoney } from "@/lib/helpers";
 import BookingFrom from "@/app/components/BookingForm";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { unstable_noStore as noStore } from "next/cache";
 
 interface IAmenities {
     title: string;
@@ -35,6 +36,7 @@ const Amenities: IAmenities[] = [
 ];
 
 const getData = async (roomId: string) => {
+    noStore();
     const url = `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/rooms/${roomId}?`;
 
     const data = await fetch(url, {

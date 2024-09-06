@@ -35,18 +35,19 @@ Hotel Booking là một ứng dụng web cho phép người dùng tìm kiếm v�
     ```dotenv
     NEXT_PUBLIC_CLIENT_URL=http://localhost:3000
 
-    KINDE_CLIENT_ID=your_kinde_client_id
-    KINDE_CLIENT_SECRET=your_kinde_client_secret
-    KINDE_ISSUER_URL=https://your_kinde_issuer_url
+    KINDE_CLIENT_ID=b9e2a6b3b1704637bd1aab74bac4a540
+    KINDE_CLIENT_SECRET=mqIwOpBf4tLiawGb0RkuOHwD9oQ6YLe6U3Z7GxiLKfMH9q8C06O
+    KINDE_ISSUER_URL=https://hotelminhhoang.kinde.com
 
     KINDE_SITE_URL=http://localhost:3000
     KINDE_POST_LOGOUT_REDIRECT_URL=http://localhost:3000
     KINDE_POST_LOGIN_REDIRECT_URL=http://localhost:3000/api/auth/creation
 
-    LOGIN_URL=https://your_kinde_login_url
+    LOGIN_URL=https://hotelminhhoang.kinde.com/auth/cx/_:nav&m:login&psid:4e6783010b404f49a7ce962fcb01c706
 
-    DATABASE_URL="postgresql://user:password@host:port/database"
-    DIRECT_URL="postgresql://user:password@host:port/database"
+    DATABASE_URL="postgresql://postgres.wnodifcpjlrkxjuuedhz:sDj7wy0eR63KL0Xl@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1"
+    DIRECT_URL="postgresql://postgres.wnodifcpjlrkxjuuedhz:sDj7wy0eR63KL0Xl@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+
     ```
 
 4. **Chạy migration (nếu sử dụng Prisma)**

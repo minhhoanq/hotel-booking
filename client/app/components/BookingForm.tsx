@@ -26,6 +26,7 @@ import { format } from "date-fns";
 import { useRouter, useParams } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { useLoader } from "@/context/LoaderContext";
 
 const FormSchema = z
     .object({
@@ -69,6 +70,7 @@ function formatDateProperties(data: {
 const BookingFrom = ({ email }: { email?: string }) => {
     const { id } = useParams();
     const { toast } = useToast();
+    const { setLoading } = useLoader();
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -80,7 +82,7 @@ const BookingFrom = ({ email }: { email?: string }) => {
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         const formattedData = formatDateProperties(data);
-
+        setLoading(true);
         await fetch("/api/bookings", {
             method: "POST",
             headers: {
@@ -89,6 +91,7 @@ const BookingFrom = ({ email }: { email?: string }) => {
             body: JSON.stringify(formattedData),
         })
             .then(() => {
+                setLoading(false);
                 form.reset();
                 toast({
                     variant: "default",
@@ -97,6 +100,7 @@ const BookingFrom = ({ email }: { email?: string }) => {
                 });
             })
             .catch(() => {
+                setLoading(false);
                 toast({
                     variant: "destructive",
                     title: "Thất bại",

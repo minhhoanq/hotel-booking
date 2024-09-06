@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
+import { LoaderProvider } from "@/context/LoaderContext";
+import Loader from "./components/Loader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +21,15 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={inter.className}>
-                <main>
-                    <Navbar />
-                    {children}
-                </main>
-                <Toaster />
+                <LoaderProvider>
+                    <main>
+                        <Navbar />
+                        {children}
+                    </main>
+                    <Toaster />
+
+                    <Loader />
+                </LoaderProvider>
             </body>
         </html>
     );

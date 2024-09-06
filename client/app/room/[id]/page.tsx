@@ -35,7 +35,7 @@ const Amenities: IAmenities[] = [
 ];
 
 const getData = async (roomId: string) => {
-    const url = `http://localhost:3000/api/rooms/${roomId}?`;
+    const url = `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/rooms/${roomId}?`;
 
     const data = await fetch(url, {
         method: "GET",

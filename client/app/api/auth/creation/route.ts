@@ -15,6 +15,7 @@ import { NextResponse } from "next/server";
         phone_number: undefined
         }
  */
+// Create user if user does not exist in database, user signin with email
 export async function GET() {
     //get user infomation
     const { getUser } = getKindeServerSession();
@@ -45,5 +46,5 @@ export async function GET() {
         });
     }
 
-    return NextResponse.redirect("http://localhost:3000/");
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_CLIENT_URL}/`);
 }

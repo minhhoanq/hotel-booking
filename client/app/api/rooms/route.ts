@@ -1,14 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/db"; // Assuming Prisma is set up
-
-interface IRoom {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    location: string;
-    image_url: string;
-}
+import { IRoom } from "@/types/room";
 
 export async function GET(req: Request) {
     try {
@@ -35,10 +27,10 @@ export async function GET(req: Request) {
                     AND: [
                         {
                             check_in_date: {
-                                lte: check_in_date, // Check-in date is before or on check-out
+                                lte: check_in_date,
                             },
                             check_out_date: {
-                                gte: check_out_date, // Check-out date is after or on check-in
+                                gte: check_out_date,
                             },
                         },
                     ],
@@ -46,9 +38,6 @@ export async function GET(req: Request) {
             };
         }
 
-        console.log("where: ", where);
-
-        // Fetch rooms with optional filters
         const data: IRoom[] = await prisma.rooms.findMany({
             where,
             select: {

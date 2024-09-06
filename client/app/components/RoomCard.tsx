@@ -2,17 +2,9 @@ import { MapPin } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../../components/ui/button";
 import { formatMoney } from "@/lib/helpers";
+import { IRoom } from "@/types/room";
 
-interface IRooms {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    location: string;
-    image_url: string;
-}
-
-export function RoomCard(props: { el: IRooms }) {
+export function RoomCard(props: { el: IRoom }) {
     const data = props.el;
 
     return (
@@ -47,7 +39,7 @@ export function RoomCard(props: { el: IRooms }) {
                         variant={"outline"}
                         className="w-full text-primary border-primary hover:bg-blue-50 hover:text-primary"
                     >
-                        See Available Room
+                        Xem phòng
                     </Button>
                 </Link>
             </div>

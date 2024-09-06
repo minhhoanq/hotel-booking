@@ -43,6 +43,7 @@ export async function POST(req: Request) {
     }
 }
 
+// GET /api/bookings
 export async function GET() {
     try {
         const bookings = await prisma.bookings.findMany({
@@ -61,6 +62,8 @@ export async function GET() {
                         name: true,
                         image_url: true,
                         price: true,
+                        description: true,
+                        location: true,
                     },
                 },
             },

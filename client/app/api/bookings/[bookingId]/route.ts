@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/db";
 
-// POST /api/bookings
+// PUT /api/bookings/[bookingId]
 export async function PUT(req: Request) {
     try {
         const { status } = await req.json();

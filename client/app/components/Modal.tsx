@@ -1,15 +1,39 @@
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { formatMoney } from "@/lib/helpers";
+import { IBooking } from "@/types/booking";
 import { X } from "lucide-react";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 const Modal = (props: {
     open: boolean;
     setOpen: (open: boolean) => void;
-    data: any;
+    data: IBooking;
+    onDataUpdate: () => void;
 }) => {
     const item = props.data;
+
+    const modalRef = useRef<HTMLDivElement | null>(null);
+
+    const handleClickOutside = (event: MouseEvent) => {
+        if (
+            modalRef.current &&
+            !modalRef.current.contains(event.target as Node)
+        ) {
+            props.setOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        if (props.open) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [props.open]);
 
     const handleCancelBooking = async () => {
         await fetch(`/api/bookings/${item?.id}`, {
@@ -21,7 +45,7 @@ const Modal = (props: {
         })
             .then(() => {
                 props.setOpen(false);
-
+                props.onDataUpdate();
                 toast({
                     variant: "default",
                     title: "Thành công",
@@ -47,6 +71,7 @@ const Modal = (props: {
         })
             .then(() => {
                 props.setOpen(false);
+                props.onDataUpdate();
                 toast({
                     variant: "default",
                     title: "Thành công",
@@ -68,9 +93,12 @@ const Modal = (props: {
                 props.open ? "" : "hidden"
             }`}
         >
-            <div className="relative bg-white max-hmax w-[500px] p-2 rounded-sm shadow-md">
+            <div
+                ref={modalRef}
+                className="relative bg-white max-hmax w-[500px] p-2 rounded-sm shadow-md"
+            >
                 <div
-                    className="absolute top-2 right-2"
+                    className="absolute top-2 right-2 hover:cursor-pointer"
                     onClick={() => props.setOpen(false)}
                 >
                     <X size={20} />
@@ -90,15 +118,20 @@ const Modal = (props: {
                     </div>
 
                     <div className="border p-2 rounded-sm bg-gray-100">
-                        <span className=" font-semibold ">Thông tin phòng</span>
-                        <div>
+                        <span className=" font-semibold">Thông tin phòng</span>
+                        <div className="flex flex-col space-y-2  mt-2">
                             <div className="flex space-x-2 font-semibold">
                                 <img
                                     src={item?.Room.image_url}
                                     alt="room"
                                     className="h-[100px]"
                                 />
-                                <span>{item?.Room.name}</span>
+                                <div className="flex flex-col">
+                                    <span>{item?.Room.name}</span>
+                                    <span className="text-sm font-normal">
+                                        {item?.Room.location}
+                                    </span>
+                                </div>
                             </div>
                             <div className="flex justify-between">
                                 <h4>Ngày đặt: </h4>

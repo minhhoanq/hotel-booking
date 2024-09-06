@@ -1,23 +1,15 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/db"; // Assuming Prisma is set up
 
-interface IRoom {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    location: string;
-    image_url: string;
-}
-
+// GET /api/rooms/[roomId]
 export async function GET(req: Request) {
     try {
         const { pathname } = new URL(req.url);
-        const roomId = pathname.split("/").pop(); // Assuming your endpoint is structured like /api/rooms/[roomId]
-        // Fetch rooms with optional filters
+        const roomId = pathname.split("/").pop(); // Get roomId at endpoint
+
         const room = await prisma.rooms.findFirst({
             where: {
-                id: roomId, // Ensure id is treated as a string
+                id: roomId,
             },
         });
 

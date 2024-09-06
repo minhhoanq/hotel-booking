@@ -1,17 +1,11 @@
 import { EmptyItem } from "@/app/components/EmptyItem";
 import { RoomCard } from "@/app/components/RoomCard";
 import { SkeltonCard } from "@/app/components/SkeltonCard";
+import { LoaderProvider } from "@/context/LoaderContext";
 import prisma from "@/lib/db";
+import { IRoom } from "@/types/room";
 import { Suspense } from "react";
-
-interface IRoom {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    location: string;
-    image_url: string;
-}
+import Loader from "./components/Loader";
 
 async function getData({
     searchParams,
@@ -39,7 +33,9 @@ async function getData({
     }
 
     // Construct URL with query parameters
-    const url = `http://localhost:3000/api/rooms?${queryParams.toString()}`;
+    const url = `${
+        process.env.NEXT_PUBLIC_CLIENT_URL
+    }/api/rooms?${queryParams.toString()}`;
 
     const data = await fetch(url, {
         method: "GET",

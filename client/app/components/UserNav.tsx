@@ -22,7 +22,7 @@ export default async function UserNav() {
         <DropdownMenu>
             <DropdownMenuTrigger>
                 <div className="rounded-full border px-2 py-2 lg:px-4 lgLpx-2 flex items-center gap-x-3">
-                    <MenuIcon className="w-6 h-6 lg:w-5 lg:h-5" />
+                    <MenuIcon className="w-6 h-6 lg:w-7 lg:h-7" />
                     <img
                         src={
                             user?.picture ??

@@ -2,43 +2,65 @@
 
 import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import Modal from "../components/Modal";
-
-async function getData(): Promise<any[]> {
-    const url = `http://localhost:3000/api/bookings`;
-
-    const data = await fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-
-    return data.json();
-}
+import { IBooking } from "@/types/booking";
+import Loader from "../components/Loader";
+import { useLoader } from "@/context/LoaderContext";
 
 const Page = () => {
     const [open, setOpen] = React.useState(false);
-    const [data, setData] = React.useState<any[]>([]);
-    const [selectedItem, setSelectedItem] = React.useState<any>(null);
+    const [data, setData] = React.useState<IBooking[]>([]);
+    const [selectedItem, setSelectedItem] = React.useState<IBooking>();
+    const { setLoading } = useLoader();
+
+    async function getData(): Promise<IBooking[]> {
+        setLoading(true);
+        try {
+            const url = `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/bookings`;
+
+            const data = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            return data.json();
+        } catch (error) {
+            console.error(error);
+            return [];
+        } finally {
+            setLoading(false);
+        }
+    }
 
     React.useEffect(() => {
         (async () => {
             const data = await getData();
             console.log(data);
-            setData(data as []);
+            setData(data as IBooking[]);
         })();
-    }, [open]);
+    }, []);
 
-    const handleButtonClick = (item: any) => {
+    const handleDataUpdate = async () => {
+        const updatedData = await getData();
+        setData(updatedData);
+    };
+
+    const handleButtonClick = (item: IBooking) => {
         setSelectedItem(item);
         setOpen(true);
     };
 
     return (
         <div className="relative">
-            <Modal open={open} data={selectedItem} setOpen={setOpen} />
+            <Modal
+                open={open}
+                data={selectedItem!}
+                setOpen={setOpen}
+                onDataUpdate={handleDataUpdate}
+            />
             <div className="w-[80%] mx-auto mt-10 mb-10 flex flex-wrap justify-between grid-cols-1 gap-4">
                 <div className="col-span-7 min-h-[500px] border flex flex-col gap-4 relative flex-1 rounded-md p-4">
                     <div>

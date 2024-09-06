@@ -42,7 +42,7 @@ const getData = async (roomId: string) => {
             "Content-Type": "application/json",
         },
     });
-
+    //
     return data.json();
 };
 
